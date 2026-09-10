@@ -3,7 +3,7 @@ import html from './assets/html.jpg'
 import css  from './assets/css.avif'
 import js from './assets/js.png'
 import react from './assets/react.png'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function CourseList(){
 
@@ -36,13 +36,21 @@ function CourseList(){
             image : react,
             rating : 5
         }
-    ])
+    ]);
+
+    const [dummy, setdummy] = useState(true);
+
+    useEffect(() => {
+        console.log("useEffect Called")
+        console.log(dummy)
+    },[]);
+
 
     function handleDelete(id){
         console.log(id)
         const newCourse = courses.filter((course) => course.id != id )
         setcourse(newCourse)
-    }
+    };
 
     courses.sort((x,y) => y.price - x.price)
     // courses.sort((p,g) => p.rating - g.rating)
@@ -60,10 +68,11 @@ function CourseList(){
 
     return(
         <>
-          {coursesList} 
+          {coursesList}
+          <button onClick={()=>{setdummy(false)}}>dummy Button</button> 
         </>
 
     );
-}
+};
 
-export default CourseList
+export default CourseList;
