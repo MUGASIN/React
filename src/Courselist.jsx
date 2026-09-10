@@ -1,21 +1,11 @@
 import Course from './Course';
-import { useState, useEffect } from 'react';
+import useFetch from './useFetch';
 
 function CourseList(){
 
-    const [courses, setcourse] = useState(null);
+    const [courses, dummy, error] = useFetch('http://localhost:3000/courses');
 
-    const [dummy, setdummy] = useState(true);
-
-    useEffect(() =>{
-        fetch('http://localhost:3000/courses')
-        .then(response => {
-            console.log(response)
-            return response.json()
-        }).then(data => setcourse(data))
-    },[])
-
-
+    
     function handleDelete(id){
         console.log(id)
         const newCourse = courses.filter((course) => course.id != id )
@@ -27,7 +17,12 @@ function CourseList(){
     // const vfmCourses = courses.filter((course) => course.price<200)
     
     if (!courses){
-        return <></>
+        return (
+        <>
+        {!error && <img src="data\assets\loading.gif" alt="" /> } 
+        {error && <p>{error}</p>}           
+        </>
+        )
     }
 
     const coursesList = courses.map(
@@ -46,4 +41,4 @@ function CourseList(){
     );
 };
 
-export default CourseList;
+export default CourseList;  //npx json-server --watch data/dummy.json --port 3000 --static ./data 
